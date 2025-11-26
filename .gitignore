@@ -1,34 +1,50 @@
-# Root-level exclusions (not deployed to GitHub)
-/ameri-polytechnic-api/
-/Colorado/
-/DOCS/
+# Exclude project folders
+ameri-polytechnic-api/
+Colorado/
+DOCS/
 
-# System files
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
-*~
-
-# IDE files
-.idea/
-.vscode/
-*.sublime-project
-*.sublime-workspace
-
-# Logs
-*.log
+# Node modules
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
 
 # Environment files
 .env
 .env.local
 .env.*.local
+*.env
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Angular specific
+.angular/
+.cache/
+
+# OS files
+desktop.ini
 
 # Temporary files
 *.tmp
 *.temp
 .cache/
+
+# Zip files
+*.zip
 
