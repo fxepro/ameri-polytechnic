@@ -1,7 +1,7 @@
 [build]
   base = "ameri-polytechnic"
-  publish = "ameri-polytechnic/dist/myapp/browser"
-  command = "cd ameri-polytechnic && npm install && npm run build"
+  publish = "dist/myapp/browser"
+  command = "npm install && npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
