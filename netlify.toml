@@ -1,0 +1,14 @@
+[build]
+  base    = "ameri-polytechnic"   # Angular base directory
+  publish = "ameri-polytechnic/dist"  # Angular build output
+  command = "npm install && ng build --prod"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[dev]
+  command = "ng serve"
+  port = 4200
+  targetPort = 4200
