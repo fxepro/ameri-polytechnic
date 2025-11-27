@@ -1,0 +1,263 @@
+
+:host {
+  display: block;
+  color: var(--text-color);
+}
+
+.admissions-page {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.admissions-hero {
+  background: var(--glass-bg);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  padding: 4rem 1rem;
+  text-align: center;
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+  margin-bottom: 2rem;
+}
+
+.admissions-hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+.admissions-hero h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.admissions-hero p {
+  max-width: 800px;
+  margin: 0 auto 1rem;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.section {
+  padding: 4rem 1rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--secondary-color);
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: -1.5rem;
+    margin-bottom: 3rem;
+    color: #555;
+}
+
+
+.alt-bg {
+  background-color: var(--surface-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Why Choose Grid */
+.why-choose-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.card p {
+  line-height: 1.6;
+}
+
+
+/* Process Steps */
+.process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.3s;
+}
+
+.step:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+}
+
+.step-content h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.step-content p,
+.step-content ul {
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.step-content ul {
+    padding-left: 20px;
+}
+
+.step-content ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* Grid & Cards */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.requirements-card, .thrives-here-card {
+    background-color: var(--surface-color);
+    padding: 2.5rem;
+    border-radius: 12px;
+}
+
+.requirements-card ul, .thrives-here-card ul {
+    padding-left: 20px;
+    line-height: 1.8;
+}
+
+.international-students {
+    margin-top: 2rem;
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+/* Testimonials */
+.testimonial-section {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.testimonial-section .section-title {
+    color: white;
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.testimonial {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 12px;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    border: 1px solid var(--primary-color);
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+.final-note {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+    color: #444;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .admissions-hero h1 {
+        font-size: 2.5rem;
+    }
+}

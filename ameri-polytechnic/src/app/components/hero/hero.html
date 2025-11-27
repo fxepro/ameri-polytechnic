@@ -1,0 +1,28 @@
+
+<section class="hero-section">
+  <div class="container hero-container">
+    <div class="hero-content glass">
+      <h1 class="hero-title">Application-centric building begins here</h1>
+      <p class="hero-subtitle">A modern polytechnic focused on student success, career-readiness and building the workforce of tomorrow.</p>
+      <div class="hero-actions">
+        <a routerLink="/admissions" class="btn btn-primary btn-lg">Get Started</a>
+        <a routerLink="/about" class="btn btn-secondary btn-lg">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="hero-image-container">
+        <img 
+          src="/markus-winkler-dFVa5T9LE8o-unsplash.jpg" 
+          alt="American Polytechnic" 
+          class="hero-img"
+          [class.hidden]="!imageLoaded"
+          (error)="onImageError($event)"
+          (load)="onImageLoad($event)">
+        <div class="hero-image-placeholder" [class.show]="showPlaceholder && !imageLoaded">
+          <div class="placeholder-icon">📷</div>
+          <p>Add hero-image.jpg to the public folder</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

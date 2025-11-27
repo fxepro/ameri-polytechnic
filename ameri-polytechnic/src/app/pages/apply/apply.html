@@ -1,0 +1,281 @@
+<div class="apply-page">
+  <header class="apply-hero glass">
+    <div class="container">
+      <h1>Apply Now</h1>
+      <h2>Start Your Journey to a High-Skill Career</h2>
+      <p>Complete your application in just 15 minutes. Our admissions team will review it within 48 hours.</p>
+    </div>
+  </header>
+
+  <div class="container apply-content">
+    <form [formGroup]="applyForm" (ngSubmit)="onSubmit()" class="apply-form">
+      
+      <!-- Personal Information Section -->
+      <section class="form-section">
+        <h2 class="section-title">Personal Information</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="firstName">First Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="firstName" 
+              formControlName="firstName"
+              [class.error]="submitted && f['firstName'].invalid">
+            <div class="error-message" *ngIf="submitted && f['firstName'].invalid">
+              First name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="lastName" 
+              formControlName="lastName"
+              [class.error]="submitted && f['lastName'].invalid">
+            <div class="error-message" *ngIf="submitted && f['lastName'].invalid">
+              Last name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address <span class="required">*</span></label>
+            <input 
+              type="email" 
+              id="email" 
+              formControlName="email"
+              [class.error]="submitted && f['email'].invalid">
+            <div class="error-message" *ngIf="submitted && f['email'].invalid">
+              <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+              <span *ngIf="f['email'].errors?.['email']">Please enter a valid email</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number <span class="required">*</span></label>
+            <input 
+              type="tel" 
+              id="phone" 
+              formControlName="phone"
+              placeholder="(555) 123-4567"
+              [class.error]="submitted && f['phone'].invalid">
+            <div class="error-message" *ngIf="submitted && f['phone'].invalid">
+              Phone number is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="dateOfBirth">Date of Birth <span class="required">*</span></label>
+            <input 
+              type="date" 
+              id="dateOfBirth" 
+              formControlName="dateOfBirth"
+              [class.error]="submitted && f['dateOfBirth'].invalid">
+            <div class="error-message" *ngIf="submitted && f['dateOfBirth'].invalid">
+              Date of birth is required
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Address Section -->
+      <section class="form-section">
+        <h2 class="section-title">Address</h2>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="address">Street Address <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="address" 
+              formControlName="address"
+              [class.error]="submitted && f['address'].invalid">
+            <div class="error-message" *ngIf="submitted && f['address'].invalid">
+              Address is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="city">City <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="city" 
+              formControlName="city"
+              [class.error]="submitted && f['city'].invalid">
+            <div class="error-message" *ngIf="submitted && f['city'].invalid">
+              City is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="state">State <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="state" 
+              formControlName="state"
+              [class.error]="submitted && f['state'].invalid">
+            <div class="error-message" *ngIf="submitted && f['state'].invalid">
+              State is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="zipCode">ZIP Code <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="zipCode" 
+              formControlName="zipCode"
+              [class.error]="submitted && f['zipCode'].invalid">
+            <div class="error-message" *ngIf="submitted && f['zipCode'].invalid">
+              ZIP code is required
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education Section -->
+      <section class="form-section">
+        <h2 class="section-title">Education Background</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="educationLevel">Highest Education Level <span class="required">*</span></label>
+            <select 
+              id="educationLevel" 
+              formControlName="educationLevel"
+              [class.error]="submitted && f['educationLevel'].invalid">
+              <option value="">Select education level</option>
+              <option value="high-school">High School Diploma</option>
+              <option value="ged">GED</option>
+              <option value="some-college">Some College</option>
+              <option value="associates">Associate's Degree</option>
+              <option value="bachelors">Bachelor's Degree</option>
+              <option value="other">Other</option>
+            </select>
+            <div class="error-message" *ngIf="submitted && f['educationLevel'].invalid">
+              Education level is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="graduationYear">Graduation Year</label>
+            <input 
+              type="number" 
+              id="graduationYear" 
+              formControlName="graduationYear"
+              placeholder="YYYY"
+              min="1950"
+              max="2025">
+          </div>
+        </div>
+      </section>
+
+      <!-- Program Selection Section -->
+      <section class="form-section">
+        <h2 class="section-title">Program Selection</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="programOfInterest">Program of Interest <span class="required">*</span></label>
+            <select 
+              id="programOfInterest" 
+              formControlName="programOfInterest"
+              [class.error]="submitted && f['programOfInterest'].invalid">
+              <option value="">Select a program</option>
+              <option *ngFor="let program of programs" [value]="program">{{ program }}</option>
+            </select>
+            <div class="error-message" *ngIf="submitted && f['programOfInterest'].invalid">
+              Please select a program
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="preferredStartDate">Preferred Start Date <span class="required">*</span></label>
+            <select 
+              id="preferredStartDate" 
+              formControlName="preferredStartDate"
+              [class.error]="submitted && f['preferredStartDate'].invalid">
+              <option value="">Select start date</option>
+              <option *ngFor="let date of startDates" [value]="date">{{ date }}</option>
+            </select>
+            <div class="error-message" *ngIf="submitted && f['preferredStartDate'].invalid">
+              Please select a start date
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Additional Information Section -->
+      <section class="form-section">
+        <h2 class="section-title">Additional Information</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="howDidYouHear">How did you hear about us?</label>
+            <select id="howDidYouHear" formControlName="howDidYouHear">
+              <option value="">Select an option</option>
+              <option value="online-search">Online Search</option>
+              <option value="social-media">Social Media</option>
+              <option value="friend-family">Friend or Family</option>
+              <option value="advertisement">Advertisement</option>
+              <option value="school-counselor">School Counselor</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="previousEducation">Previous Education or Training (Optional)</label>
+            <textarea 
+              id="previousEducation" 
+              formControlName="previousEducation"
+              rows="3"
+              placeholder="Tell us about any previous education or training you've completed"></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="workExperience">Work Experience (Optional)</label>
+            <textarea 
+              id="workExperience" 
+              formControlName="workExperience"
+              rows="3"
+              placeholder="Tell us about your work experience"></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="questions">Questions or Comments (Optional)</label>
+            <textarea 
+              id="questions" 
+              formControlName="questions"
+              rows="4"
+              placeholder="Do you have any questions or comments for our admissions team?"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Agreement Section -->
+      <section class="form-section">
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              formControlName="agreeToTerms"
+              [class.error]="submitted && f['agreeToTerms'].invalid">
+            <span>I agree to the terms and conditions and privacy policy <span class="required">*</span></span>
+          </label>
+          <div class="error-message" *ngIf="submitted && f['agreeToTerms'].invalid">
+            You must agree to the terms and conditions
+          </div>
+        </div>
+      </section>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn btn-primary btn-lg"
+          [disabled]="isSubmitting">
+          <span *ngIf="!isSubmitting">Submit Application</span>
+          <span *ngIf="isSubmitting">Submitting...</span>
+        </button>
+        <p class="form-note">* Required fields</p>
+      </div>
+    </form>
+  </div>
+</div>
+

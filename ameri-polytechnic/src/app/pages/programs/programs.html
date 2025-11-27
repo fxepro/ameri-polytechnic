@@ -1,0 +1,147 @@
+
+<div class="programs-page">
+  <header class="page-header">
+    <div class="container">
+      <h1>Programs at American Polytechnic</h1>
+      <p>Explore Career-Ready Technical Pathways for a High-Demand Future</p>
+    </div>
+  </header>
+
+  <div class="container page-content">
+    <div class="intro">
+      <p>American Polytechnic offers a powerful range of two-year, industry-aligned technical programs designed to launch students into skilled professions. Whether you want to work with your hands, build complex systems, safeguard digital infrastructure, or design the technologies of tomorrow—there is a program here for you.</p>
+      <div class="program-features">
+        <p><strong>Every program combines:</strong></p>
+        <ul>
+          <li>✅ Online learning + hands-on labs</li>
+          <li>✅ Industry-standard tools & simulations</li>
+          <li>✅ Professional certifications</li>
+          <li>✅ Career placement support</li>
+          <li>✅ Practical, project-based skills</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="program-tabs">
+      <div class="tab-triggers">
+        <button 
+          [class.active]="activeTab() === 'trades'" 
+          (click)="selectTab('trades')">
+          🔧 Skilled Trades
+        </button>
+        <button 
+          [class.active]="activeTab() === 'it-cyber'" 
+          (click)="selectTab('it-cyber')">
+          🖥️ IT & Cyber
+        </button>
+        <button 
+          [class.active]="activeTab() === 'engineering'" 
+          (click)="selectTab('engineering')">
+          🤖 Engineering & Robotics
+        </button>
+        <button 
+          [class.active]="activeTab() === 'aviation'" 
+          (click)="selectTab('aviation')">
+          ✈️ Aviation & Drones
+        </button>
+        <button 
+          [class.active]="activeTab() === 'health'" 
+          (click)="selectTab('health')">
+          ⚕️ Health & Emergency
+        </button>
+        <button 
+          [class.active]="activeTab() === 'green-energy'" 
+          (click)="selectTab('green-energy')">
+          🌍 Green Energy
+        </button>
+        <button 
+          [class.active]="activeTab() === 'business'" 
+          (click)="selectTab('business')">
+          🧰 Business & Logistics
+        </button>
+      </div>
+
+      <div class="tab-content-area">
+        <div class="tab-content">
+          <h2 class="category-title">
+            @if (activeTab() === 'trades') { 🔧 Skilled Trades & Construction Technologies }
+            @else if (activeTab() === 'it-cyber') { 🖥️ Information Technology & Cyber Systems }
+            @else if (activeTab() === 'engineering') { 🤖 Engineering, Robotics & Manufacturing }
+            @else if (activeTab() === 'aviation') { ✈️ Aviation & Drone Technologies }
+            @else if (activeTab() === 'health') { ⚕️ Allied Health & Emergency Response }
+            @else if (activeTab() === 'green-energy') { 🌍 Green Energy & Emerging Technologies }
+            @else if (activeTab() === 'business') { 🧰 Business, Logistics & Technical Operations }
+          </h2>
+          
+          <div class="programs-layout">
+            <div class="programs-list">
+              @for (program of getCurrentPrograms(); track program.id) {
+                <div 
+                  class="program-header"
+                  [class.active]="selectedProgram()?.id === program.id"
+                  (click)="selectProgram(program)">
+                  <h3>{{ program.title }}</h3>
+                  <p class="program-preview">{{ program.description }}</p>
+                </div>
+              }
+            </div>
+            
+            <div class="program-detail-card">
+              @if (selectedProgram(); as program) {
+                <div class="detail-card-content">
+                  <h3>{{ program.title }}</h3>
+                  <p class="program-description">{{ program.description }}</p>
+                  
+                  <div class="program-details">
+                    <div class="detail-section">
+                      <strong>Skills You'll Learn:</strong>
+                      <p>{{ program.skills }}</p>
+                    </div>
+                    
+                    @if (program.certifications) {
+                      <div class="detail-section">
+                        <strong>Certifications:</strong>
+                        <p>{{ program.certifications }}</p>
+                      </div>
+                    }
+                    
+                    <div class="detail-section">
+                      <strong>Career Paths:</strong>
+                      <p>{{ program.careerPaths }}</p>
+                    </div>
+                  </div>
+                  
+                  <div class="detail-actions">
+                    <a routerLink="/apply" class="btn btn-primary">Apply Now</a>
+                    <a routerLink="/contact" class="btn btn-secondary">Learn More</a>
+                  </div>
+                </div>
+              } @else {
+                <div class="detail-card-placeholder">
+                  <div class="placeholder-icon">👆</div>
+                  <p>Select a program to view details</p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="closing-cta">
+      <h2>🎯 Choose a Future That Works for You</h2>
+      <p>American Polytechnic equips you with a career, not just a classroom experience. Our programs are built with industry partners to ensure you graduate ready to step into the workforce with:</p>
+      <ul class="benefits-list">
+        <li>✅ <strong>Practical skills</strong></li>
+        <li>✅ <strong>Real certifications</strong></li>
+        <li>✅ <strong>Hands-on experience</strong></li>
+        <li>✅ <strong>Employer-ready confidence</strong></li>
+      </ul>
+      <div class="cta-buttons">
+        <a routerLink="/apply" class="btn btn-primary">Apply Today</a>
+        <a routerLink="/contact" class="btn btn-secondary">Talk to an Advisor</a>
+      </div>
+      <p class="tagline"><strong>Your future career starts here.</strong><br>Your hands. Your mind. Your journey.<br>American Polytechnic.</p>
+    </div>
+  </div>
+</div>
