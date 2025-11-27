@@ -1,6 +1,6 @@
 [build]
   base = "ameri-polytechnic"
-  publish = "ameri-polytechnic/dist/myapp/browser"
+  publish = "dist/myapp/browser"
   command = "npm install && npm run build"
 
 [[redirects]]
