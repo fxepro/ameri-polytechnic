@@ -1,6 +1,6 @@
 [build]
-  base    = ""   # Angular base directory
-  publish = "dist"  # Angular build output
+  base = "ameri-polytechnic"
+  publish = "ameri-polytechnic/dist/myapp/browser"
   command = "npm install && npm run build"
 
 [[redirects]]
