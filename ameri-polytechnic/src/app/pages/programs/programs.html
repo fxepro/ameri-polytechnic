@@ -59,10 +59,20 @@
           (click)="selectTab('business')">
           🧰 Business & Logistics
         </button>
+        <button 
+          [class.active]="activeTab() === 'naval-maritime'" 
+          (click)="selectTab('naval-maritime')">
+          ⚓ Naval & Maritime
+        </button>
+        <button 
+          [class.active]="activeTab() === 'defense-electronics'" 
+          (click)="selectTab('defense-electronics')">
+          🛡️ Defense & Electronics
+        </button>
       </div>
 
       <div class="tab-content-area">
-        <div class="tab-content">
+          <div class="tab-content">
           <h2 class="category-title">
             @if (activeTab() === 'trades') { 🔧 Skilled Trades & Construction Technologies }
             @else if (activeTab() === 'it-cyber') { 🖥️ Information Technology & Cyber Systems }
@@ -71,6 +81,8 @@
             @else if (activeTab() === 'health') { ⚕️ Allied Health & Emergency Response }
             @else if (activeTab() === 'green-energy') { 🌍 Green Energy & Emerging Technologies }
             @else if (activeTab() === 'business') { 🧰 Business, Logistics & Technical Operations }
+            @else if (activeTab() === 'naval-maritime') { ⚓ Naval & Maritime Defense Technologies }
+            @else if (activeTab() === 'defense-electronics') { 🛡️ Defense Electronics, Warfare Systems & Aerospace Technologies }
           </h2>
           
           <div class="programs-layout">
@@ -82,7 +94,7 @@
                   (click)="selectProgram(program)">
                   <h3>{{ program.title }}</h3>
                   <p class="program-preview">{{ program.description }}</p>
-                </div>
+            </div>
               }
             </div>
             
@@ -96,35 +108,35 @@
                     <div class="detail-section">
                       <strong>Skills You'll Learn:</strong>
                       <p>{{ program.skills }}</p>
-                    </div>
+            </div>
                     
                     @if (program.certifications) {
                       <div class="detail-section">
                         <strong>Certifications:</strong>
                         <p>{{ program.certifications }}</p>
-                      </div>
+            </div>
                     }
                     
                     <div class="detail-section">
                       <strong>Career Paths:</strong>
                       <p>{{ program.careerPaths }}</p>
-                    </div>
-                  </div>
+            </div>
+            </div>
                   
                   <div class="detail-actions">
                     <a routerLink="/apply" class="btn btn-primary">Apply Now</a>
-                    <a routerLink="/contact" class="btn btn-secondary">Learn More</a>
-                  </div>
-                </div>
+                    <a [routerLink]="['/programs', program.id]" class="btn btn-secondary">Learn More</a>
+            </div>
+          </div>
               } @else {
                 <div class="detail-card-placeholder">
                   <div class="placeholder-icon">👆</div>
                   <p>Select a program to view details</p>
-                </div>
+            </div>
               }
             </div>
           </div>
-        </div>
+          </div>
       </div>
     </div>
 

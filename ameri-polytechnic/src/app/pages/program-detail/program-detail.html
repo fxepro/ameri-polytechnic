@@ -1,0 +1,139 @@
+<div class="program-detail-page">
+  @if (loading()) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Loading program details...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-container">
+      <h2>Error</h2>
+      <p>{{ error() }}</p>
+      <a routerLink="/programs" class="btn btn-primary">Back to Programs</a>
+    </div>
+  } @else if (program(); as prog) {
+    <header class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1>{{ prog.name }}</h1>
+            @if (prog.program_code) {
+              <p class="program-code">Program Code: {{ prog.program_code }}</p>
+            }
+            <p class="hero-description">{{ prog.description }}</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container page-content">
+      @if (prog.overview) {
+        <section class="content-section">
+          <h2>Program Overview</h2>
+          <div class="section-content" [innerHTML]="formatOverview(prog.overview)"></div>
+        </section>
+      }
+
+      <div class="details-grid">
+        <section class="content-section">
+          <h2>Program Details</h2>
+          <div class="detail-list">
+            <div class="detail-item">
+              <strong>Duration:</strong>
+              <span>{{ prog.duration_months }} months</span>
+            </div>
+            @if (prog.program_length) {
+              <div class="detail-item">
+                <strong>Program Length:</strong>
+                <span>{{ prog.program_length }}</span>
+              </div>
+            }
+            <div class="detail-item">
+              <strong>Format:</strong>
+              <span>{{ prog.format | titlecase }}</span>
+            </div>
+            @if (prog.delivery_mode) {
+              <div class="detail-item">
+                <strong>Delivery Mode:</strong>
+                <span>{{ prog.delivery_mode | titlecase }}</span>
+              </div>
+            }
+            <div class="detail-item">
+              <strong>Category:</strong>
+              <span>{{ prog.category }}</span>
+            </div>
+            @if (prog.tuition || prog.tuition_cost) {
+              <div class="detail-item">
+                <strong>Tuition:</strong>
+                <span>{{ formatCurrency(prog.tuition || prog.tuition_cost) }}</span>
+              </div>
+            }
+            @if (prog.salary_range) {
+              <div class="detail-item">
+                <strong>Salary Range:</strong>
+                <span>{{ prog.salary_range }}</span>
+              </div>
+            }
+          </div>
+        </section>
+
+        @if (prog.requirements) {
+          <section class="content-section">
+            <h2>Admission Requirements</h2>
+            <div class="section-content">{{ prog.requirements }}</div>
+          </section>
+        }
+      </div>
+
+      @if (formatList(prog.skills).length > 0) {
+        <section class="content-section">
+          <h2>Skills You'll Learn</h2>
+          <ul class="skills-list">
+            @for (skill of formatList(prog.skills); track skill) {
+              <li>{{ skill }}</li>
+            }
+          </ul>
+        </section>
+      }
+
+      @if (formatList(prog.career_paths).length > 0) {
+        <section class="content-section">
+          <h2>Career Opportunities</h2>
+          <ul class="career-list">
+            @for (career of formatList(prog.career_paths); track career) {
+              <li>{{ career }}</li>
+            }
+          </ul>
+        </section>
+      }
+
+      @if (formatList(prog.certifications).length > 0) {
+        <section class="content-section">
+          <h2>Industry Certifications</h2>
+          <ul class="certifications-list">
+            @for (cert of formatList(prog.certifications); track cert) {
+              <li>{{ cert }}</li>
+            }
+          </ul>
+        </section>
+      }
+
+      @if (prog.industry_outlook) {
+        <section class="content-section">
+          <h2>Industry Outlook</h2>
+          <div class="section-content">{{ prog.industry_outlook }}</div>
+        </section>
+      }
+
+      <div class="cta-section">
+        <h2>Ready to Get Started?</h2>
+        <p>Take the next step toward your career in {{ prog.category }}</p>
+        <div class="cta-buttons">
+          <a routerLink="/apply" class="btn btn-primary">Apply Now</a>
+          <a routerLink="/contact" class="btn btn-secondary">Contact an Advisor</a>
+          <a routerLink="/programs" class="btn btn-outline">Back to Programs</a>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+

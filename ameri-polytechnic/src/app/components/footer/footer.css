@@ -81,12 +81,20 @@
   transform: translateY(-2px);
 }
 
+@media (max-width: 992px) {
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .footer-main {
     flex-direction: column;
   }
   .footer-links {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 2rem;
   }
   .footer-bottom {

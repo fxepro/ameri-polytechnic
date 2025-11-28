@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-type TabId = 'trades' | 'it-cyber' | 'engineering' | 'aviation' | 'health' | 'green-energy' | 'business';
+type TabId = 'trades' | 'it-cyber' | 'engineering' | 'aviation' | 'health' | 'green-energy' | 'business' | 'naval-maritime' | 'defense-electronics';
 
 interface Program {
   id: number;
@@ -62,6 +62,18 @@ export class ProgramsComponent {
     'business': [
       { id: 21, title: 'Construction Project Administration', description: 'Learn the management side of the construction industry.', skills: 'Scheduling, estimating, procurement, safety', certifications: '', careerPaths: 'Project coordinator, site administrator' },
       { id: 22, title: 'Supply Chain & Logistics Operations', description: 'Train for roles in global logistics and warehousing.', skills: 'Inventory, shipping, planning, warehouse software', certifications: '', careerPaths: 'Logistics tech, supply chain assistant' }
+    ],
+    'naval-maritime': [
+      { id: 23, title: 'Naval Architecture & Marine Engineering', description: 'Learn the engineering principles behind designing, analyzing, and building naval vessels.', skills: 'Hydrodynamics, hull structures, stability analysis, propulsion systems, survivability requirements', certifications: '', careerPaths: 'Naval engineer, ship designer, marine engineering technician' },
+      { id: 24, title: 'Shipbuilding & Maritime Manufacturing Technology', description: 'Learn the full lifecycle of constructing modern naval vessels.', skills: 'Modular construction, welding for naval structures, composite materials, outfitting, propulsion integration', certifications: '', careerPaths: 'Shipyard technician, defense manufacturing specialist, marine fabricator' },
+      { id: 25, title: 'Underwater Vehicle Technology (AUV/ROV Systems)', description: 'Explore unmanned underwater systems for defense and research applications.', skills: 'Underwater communication, pressure-rated materials, navigation technologies, propulsion, sensor integration', certifications: '', careerPaths: 'Subsea robotics technician, naval R&D specialist, ocean-technology engineer' },
+      { id: 26, title: 'Naval Combat Systems Technology', description: 'Study the sensors, weapons, and command systems used on military vessels.', skills: 'Naval radar, sonar, fire-control systems, electronic warfare suites, combat data networks', certifications: '', careerPaths: 'Combat-systems integrator, naval electronics technician' }
+    ],
+    'defense-electronics': [
+      { id: 27, title: 'Warfare Electronics & Electronic Systems Technology', description: 'Train in the electronics that drive modern defense platforms.', skills: 'Communication systems, sensors, radar principles, electronic countermeasures, navigation electronics, avionics', certifications: '', careerPaths: 'Avionics technician, defense maintenance specialist, tactical communication technician' },
+      { id: 28, title: 'Unmanned Systems Technology (Air, Land & Sea)', description: 'Learn to build, maintain, and operate unmanned defense platforms.', skills: 'Propulsion, flight controllers, robotics, telemetry, payload integration, navigation, autonomous control', certifications: '', careerPaths: 'Drone systems technician, robotics specialist, defense operations support' },
+      { id: 29, title: 'Defense Manufacturing & Precision Fabrication', description: 'Learn manufacturing methods specialized for defense components.', skills: 'Precision machining, composites fabrication, additive manufacturing, heat treatments, armoring materials', certifications: '', careerPaths: 'Defense manufacturing technician, precision fabricator, aerospace parts specialist' },
+      { id: 30, title: 'Cybersecurity for Defense Systems (Technical Track)', description: 'Focus on protecting tactical networks and embedded defense systems.', skills: 'Secure communications, encryption, hardened embedded devices, SCADA/military-network protection, vulnerability assessment', certifications: '', careerPaths: 'Defense cybersecurity specialist, tactical network security technician' }
     ]
   };
 
