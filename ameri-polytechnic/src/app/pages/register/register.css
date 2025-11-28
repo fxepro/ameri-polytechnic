@@ -164,3 +164,38 @@
   }
 }
 
+.alert {
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+}
+
+.alert-error {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+}
+
+.alert-success {
+  background-color: #efe;
+  border: 1px solid #cfc;
+  color: #3c3;
+}
+
+.error-message {
+  color: #c33;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.form-group input.error {
+  border-color: #c33;
+}
+
+.optional {
+  color: var(--text-color-secondary);
+  font-weight: normal;
+  font-size: 0.9em;
+}
+

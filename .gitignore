@@ -1,6 +1,8 @@
 # Exclude project folders
 Colorado/
 DOCS/
+ameri-polytechnic - v2/
+ameri-polytechnic-api - v2/
 
 # Node modules
 node_modules/
@@ -46,4 +48,7 @@ desktop.ini
 
 # Zip files
 *.zip
+v2.zip
+**/* - v2/
+**/*-v2/
 

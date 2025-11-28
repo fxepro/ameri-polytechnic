@@ -16,6 +16,8 @@ export interface AuthResponse {
   message: string;
   user: User;
   token?: string;
+  verification_url?: string;
+  email_sent?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })

@@ -20,10 +20,30 @@ class AuthController extends Controller
      */
     public function register(Request $request): JsonResponse
     {
+        // Custom validation for email uniqueness in shared schema
+        $emailExists = false;
+        try {
+            DB::statement('SET search_path TO shared');
+            $emailExists = DB::table('auth_users')->where('email', $request->email)->exists();
+            DB::statement('SET search_path TO public');
+        } catch (\Exception $e) {
+            DB::statement('SET search_path TO public');
+        }
+
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:shared.auth_users,email',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                function ($attribute, $value, $fail) use ($emailExists) {
+                    if ($emailExists) {
+                        $fail('The email has already been taken.');
+                    }
+                },
+            ],
             'phone' => 'nullable|string|max:20',
             'password' => 'required|string|min:8|confirmed',
         ]);
@@ -45,7 +65,7 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone ?? null,
                 'status' => 'active',
-                'email_verified_at' => null, // Not verified yet
+                'email_verified_at' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -59,50 +79,72 @@ class AuthController extends Controller
                 'updated_at' => now(),
             ]);
 
-            // Generate verification token
+            // Generate verification token and store in auth_users
             $token = Str::random(64);
-            DB::table('email_verifications')->insert([
-                'auth_user_id' => $userId,
-                'token' => $token,
-                'expires_at' => now()->addHours(24),
-                'verified' => false,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            DB::table('auth_users')
+                ->where('id', $userId)
+                ->update([
+                    'verification_token' => $token,
+                    'verification_token_expires_at' => now()->addHours(24),
+                ]);
 
             // Get user for email
             $user = DB::table('auth_users')->where('id', $userId)->first();
 
-            // Create user profile (if you have a users table with additional info)
-            // This depends on your schema structure
-            // For now, we'll just return the auth_user
+            if (!$user) {
+                DB::statement('SET search_path TO public');
+                return response()->json([
+                    'error' => 'Registration failed',
+                    'message' => 'User was created but could not be retrieved'
+                ], 500);
+            }
 
             DB::statement('SET search_path TO public');
 
-            // Send verification email
-            try {
-                Mail::to($user->email)->send(new VerifyEmail($user, $token));
-            } catch (\Exception $e) {
-                // Log error but don't fail registration
-                \Log::error('Failed to send verification email: ' . $e->getMessage());
-            }
-
-            return response()->json([
+            // Prepare response data
+            $responseData = [
                 'message' => 'Registration successful! Please check your email to verify your account.',
                 'user' => [
                     'id' => $userId,
-                    'email' => $request->email,
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
+                    'email' => $user->email ?? $request->email,
+                    'first_name' => $user->first_name ?? $request->first_name,
+                    'last_name' => $user->last_name ?? $request->last_name,
                     'email_verified' => false,
                 ],
-            ], 201);
+            ];
+
+            // Send verification email (non-blocking) - don't let email failure break registration
+            try {
+                $frontendUrl = env('FRONTEND_URL', config('app.frontend_url', 'http://localhost:4200'));
+                $verificationUrl = rtrim($frontendUrl, '/') . '/verify-email?token=' . $token;
+                
+                if (config('mail.default') !== 'log') {
+                    Mail::to($user->email)->send(new VerifyEmail($user, $token));
+                    $responseData['email_sent'] = true;
+                } else {
+                    // For log driver, log the verification URL for easy testing
+                    \Log::info('Verification email (LOG MODE) - Email: ' . $user->email);
+                    \Log::info('Verification URL: ' . $verificationUrl);
+                    $responseData['email_sent'] = true;
+                    $responseData['verification_url'] = $verificationUrl; // Include in response for local testing
+                }
+            } catch (\Exception $e) {
+                \Log::error('Email send failed: ' . $e->getMessage());
+                \Log::error('Email error: ' . $e->getFile() . ':' . $e->getLine());
+                $responseData['email_sent'] = false;
+            }
+
+            return response()->json($responseData, 201);
 
         } catch (\Exception $e) {
             DB::statement('SET search_path TO public');
+            \Log::error('Registration exception: ' . $e->getMessage());
+            \Log::error('Registration exception trace: ' . $e->getTraceAsString());
             return response()->json([
                 'error' => 'Registration failed',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
             ], 500);
         }
     }
@@ -256,30 +298,31 @@ class AuthController extends Controller
         try {
             DB::statement('SET search_path TO shared');
 
-            $verification = DB::table('email_verifications')
-                ->where('token', $request->token)
-                ->where('expires_at', '>', now())
-                ->where('verified', false)
+            // Find user by verification token
+            $user = DB::table('auth_users')
+                ->where('verification_token', $request->token)
+                ->where('verification_token_expires_at', '>', now())
+                ->whereNull('email_verified_at')
                 ->first();
 
-            if (!$verification) {
+            if (!$user) {
                 DB::statement('SET search_path TO public');
                 return response()->json([
                     'error' => 'Invalid or expired verification token'
                 ], 400);
             }
 
-            // Mark verification as complete
-            DB::table('email_verifications')
-                ->where('id', $verification->id)
-                ->update(['verified' => true]);
-
-            // Update user email_verified_at
+            // Update user email_verified_at and clear token
             DB::table('auth_users')
-                ->where('id', $verification->auth_user_id)
-                ->update(['email_verified_at' => now()]);
+                ->where('id', $user->id)
+                ->update([
+                    'email_verified_at' => now(),
+                    'verification_token' => null,
+                    'verification_token_expires_at' => null,
+                ]);
 
-            $user = DB::table('auth_users')->where('id', $verification->auth_user_id)->first();
+            // Get updated user
+            $user = DB::table('auth_users')->where('id', $user->id)->first();
 
             DB::statement('SET search_path TO public');
 
@@ -338,40 +381,39 @@ class AuthController extends Controller
                 ]);
             }
 
-            // Generate new verification token
+            // Generate new verification token and store in auth_users
             $token = Str::random(64);
-            
-            // Invalidate old tokens
-            DB::table('email_verifications')
-                ->where('auth_user_id', $user->id)
-                ->where('verified', false)
-                ->delete();
-
-            // Create new verification token
-            DB::table('email_verifications')->insert([
-                'auth_user_id' => $user->id,
-                'token' => $token,
-                'expires_at' => now()->addHours(24),
-                'verified' => false,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            DB::table('auth_users')
+                ->where('id', $user->id)
+                ->update([
+                    'verification_token' => $token,
+                    'verification_token_expires_at' => now()->addHours(24),
+                ]);
 
             DB::statement('SET search_path TO public');
 
             // Send verification email
             try {
-                Mail::to($user->email)->send(new VerifyEmail($user, $token));
+                $frontendUrl = env('FRONTEND_URL', config('app.frontend_url', 'http://localhost:4200'));
+                $verificationUrl = rtrim($frontendUrl, '/') . '/verify-email?token=' . $token;
+                
+                $responseData = ['message' => 'Verification email sent successfully'];
+                
+                if (config('mail.default') !== 'log') {
+                    Mail::to($user->email)->send(new VerifyEmail($user, $token));
+                } else {
+                    \Log::info('Verification email (LOG MODE) - Email: ' . $user->email);
+                    \Log::info('Verification URL: ' . $verificationUrl);
+                    $responseData['verification_url'] = $verificationUrl; // Include in response for local testing
+                }
+                
+                return response()->json($responseData);
             } catch (\Exception $e) {
                 \Log::error('Failed to send verification email: ' . $e->getMessage());
                 return response()->json([
                     'error' => 'Failed to send verification email'
                 ], 500);
             }
-
-            return response()->json([
-                'message' => 'Verification email sent successfully'
-            ]);
 
         } catch (\Exception $e) {
             DB::statement('SET search_path TO public');
